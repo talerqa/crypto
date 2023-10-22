@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import {ComponentProps} from "react";
 
 import s from "./table.module.scss";
 
