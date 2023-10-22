@@ -12,11 +12,12 @@ export const Header = (props: HeaderProps) => {
     <div className={s.headerContanier}>
       <NavLink to={'/'} className={s.logoBlock}>
         <img src={logo} alt="LOGO" className={s.logoImg}/>
-        <a href='#' className={s.logoTitle}>Crypto Market</a>
+        <span className={s.logoTitle}>Crypto Market</span>
       </NavLink>
       <div className={s.firstThreeCoin}>
         {props.data?.map((item: TypeData) => {
-          return <NavLink to={`/${item.id}`} key={item.id} className={s.itemCoin}>
+          return <NavLink to={`/${item.id}`} key={item.id}
+                          className={s.itemCoin}>
             <img className={s.logoCoin}
                  src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
                  alt={`${item.id}-logo`}/>
