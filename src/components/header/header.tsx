@@ -1,16 +1,13 @@
 import logo from "@/assets/logo.png";
-import {TypeData, useGetAssetsQuery} from "@/servicies/baseApi.ts";
 import s from './header.module.scss'
 import {NavLink} from "react-router-dom";
+import {TypeData} from "@/servicies/baseApi.type.ts";
 
-export const Header = () => {
+export const Header = (props: any) => {
+  const {data} = props
 
-  const {data} = useGetAssetsQuery()
-
-  const firstThreeCoin = data?.data.filter((item: TypeData) => item.rank === '1' || item.rank === '2' || item.rank === '3' ? item : '')
-
-
-
+  const firstThreeCoin = data?.filter((item: TypeData) => item.rank ===
+  '1' || item.rank === '2' || item.rank === '3' ? item : '')
 
   return <header className={s.header}>
     <div className={s.headerContanier}>

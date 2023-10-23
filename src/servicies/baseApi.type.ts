@@ -23,4 +23,4 @@ export type TypeData = {
   vwap24Hr: string;
 }
 
-export type TypeDataPick = Partial<TypeData> & { search: string }
+export type TypeDataPick = Partial<TypeData> & { search?: string, limit?: number, offset?: number }

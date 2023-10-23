@@ -2,14 +2,51 @@ import {Table} from "@/components/table";
 import {NavLink} from "react-router-dom";
 import s from './assets.module.scss'
 import {TypeData} from "@/servicies/baseApi.type.ts";
+import {InputFindCoin} from "@/components/inputFindCoin";
+import {useEffect, useState} from "react";
+import {useGetAssetsQuery} from "@/servicies/baseApi.ts";
 
-export const Assets = (props: { data?: TypeData[] }) => {
+export const Assets = (props: any) => {
 
-  const {data} = props
+
+
+  const {data1} = props
+  const [name, setName] = useState('')
+
+  let a: any | null = null
+  if (name.length > 0) {
+    a = {
+      search: name,
+    }
+  }
+
+  const [offset, setOffset] = useState<number>(0)
+  const [limit, setLimit] = useState<number>(10)
+
+  const AddCoin = () => {
+    setLimit(limit => limit + 10)
+    setOffset((offset) => offset + offset)
+  }
+
+  const {data, refetch} = useGetAssetsQuery({
+    ...a, limit: limit,
+    offset: offset,
+  })
+
+  useEffect(() => {
+    const setId = setInterval(() => {
+      refetch()
+    }, 5000)
+    return (() => {
+      clearInterval(setId)
+    })
+  }, [data1, refetch])
+
 
   const {Root, Head, Body, Row, Cell} = Table
   return <div className={s.assets}>
     <div className={s.assetsContainer}>
+      <InputFindCoin setName={setName}/>
       <Root>
         <Head>
           <Row>
@@ -25,7 +62,7 @@ export const Assets = (props: { data?: TypeData[] }) => {
           </Row>
         </Head>
         <Body>
-          {data?.map((item: TypeData) => {
+          {data?.data.map((item: TypeData) => {
             return <Row key={item.id}>
               <Cell><p>{item.rank}</p></Cell>
               <Cell>
@@ -34,8 +71,8 @@ export const Assets = (props: { data?: TypeData[] }) => {
                     className={s.imgCoin}
                     src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
                     alt={`${item.name}-img`}/>
-                    <p>{item.name}</p>
-                  </NavLink>
+                  <p>{item.name}</p>
+                </NavLink>
               </Cell>
               <Cell><p>{item.symbol}</p></Cell>
               <Cell>
@@ -59,6 +96,7 @@ export const Assets = (props: { data?: TypeData[] }) => {
 
         </Body>
       </Root>
+      <button onClick={() => AddCoin()}>view more</button>
     </div>
   </div>
 }
