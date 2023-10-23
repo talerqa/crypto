@@ -1,4 +1,9 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {
+  GetChart,
+  ResponseData,
+  TypeDataPick
+} from "@/servicies/baseApi.type.ts";
 
 
 export const baseApi = createApi({
@@ -38,29 +43,3 @@ export const {
   useGetHistoryCoinQuery,
 } = baseApi
 
-
-export type GetChart = {
-  id?: string
-  interval?: string
-  start?: any,
-  end?: any
-}
-
-export type ResponseData = {
-  data: TypeData[];
-}
-export type TypeData = {
-  id: string;
-  rank: string;
-  symbol: string;
-  name: string;
-  supply: string;
-  maxSupply: string;
-  marketCapUsd: string;
-  volumeUsd24Hr: string;
-  priceUsd: string;
-  changePercent24Hr: string;
-  vwap24Hr: string;
-}
-
-type TypeDataPick = Partial<TypeData> & { search: string }

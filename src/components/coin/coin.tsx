@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {TypeData, useGetHistoryCoinQuery} from "@/servicies/baseApi.ts";
+import { useGetHistoryCoinQuery} from "@/servicies/baseApi.ts";
 import {
   CartesianGrid,
   Line,
@@ -9,6 +9,8 @@ import {
   XAxis,
   YAxis
 } from "recharts";
+import {Loader} from "@/components/loader";
+import {TypeData} from "@/servicies/baseApi.type.ts";
 
 
 type Props = {
@@ -41,23 +43,21 @@ const timeMonthAgo = timeNow - MONTH_MILLISECONDS;
 export const Coin = (props: Props) => {
 
   const params = useParams();
-
   const coin = props.data.filter((item: TypeData) => item.id === params.id ? item : '')
 
-  const {data} = useGetHistoryCoinQuery({
+  const {data, isLoading} = useGetHistoryCoinQuery({
     id: coin[0].id,
     interval: 'd1',
     start: timeMonthAgo,
     end: timeNow
   })
-  console.log(data?.data)
-
 
   return <div style={{width: '1000px', height: '700px'}}>
+    {isLoading && <Loader/>}
     {coin.map((item: TypeData) => {
       return <div key={item.id}>
         <p>{item.rank}</p>
-        <a
+        <a target={'_blank'}
           href={`https://coinmarketcap.com/currencies/${item.name.toLowerCase().replace(/ /g, '-')}/`}>
           {item.name} </a>
         {/*<NavLink to={`/${item.id}`}>*/}
@@ -104,7 +104,5 @@ export const Coin = (props: Props) => {
           </LineChart>
       </ResponsiveContainer>}
     </div>
-
-    sdffsdfsdsfdfsdsdffsdfsdsfdfsd
   </div>
 }

@@ -1,13 +1,17 @@
 import logo from "@/assets/logo.png";
-import {TypeData} from "@/servicies/baseApi.ts";
+import {TypeData, useGetAssetsQuery} from "@/servicies/baseApi.ts";
 import s from './header.module.scss'
 import {NavLink} from "react-router-dom";
 
-type HeaderProps = {
-  data: TypeData[] | undefined
-}
+export const Header = () => {
 
-export const Header = (props: HeaderProps) => {
+  const {data} = useGetAssetsQuery()
+
+  const firstThreeCoin = data?.data.filter((item: TypeData) => item.rank === '1' || item.rank === '2' || item.rank === '3' ? item : '')
+
+
+
+
   return <header className={s.header}>
     <div className={s.headerContanier}>
       <NavLink to={'/'} className={s.logoBlock}>
@@ -15,7 +19,7 @@ export const Header = (props: HeaderProps) => {
         <span className={s.logoTitle}>Crypto Market</span>
       </NavLink>
       <div className={s.firstThreeCoin}>
-        {props.data?.map((item: TypeData) => {
+        {firstThreeCoin?.map((item: TypeData) => {
           return <NavLink to={`/${item.id}`} key={item.id}
                           className={s.itemCoin}>
             <img className={s.logoCoin}
