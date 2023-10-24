@@ -6,6 +6,8 @@ import {InputFindCoin} from "@/components/inputFindCoin";
 import {useEffect, useState} from "react";
 import {useGetAssetsQuery} from "@/servicies/baseApi.ts";
 import {Loader} from "@/components/loader";
+import {ArrowDown} from "@/assets/arrowDown.tsx";
+import {ArrowUp} from "@/assets/arrowUp.tsx";
 
 export const Assets = (props: any) => {
 
@@ -46,14 +48,14 @@ export const Assets = (props: any) => {
     <div className={s.assetsContainer}>
       {isLoading && <Loader/>}
       <InputFindCoin setName={setName}/>
-      <Root>
+      <Root className={data?.data.length !== 0 ? s.root : ""}>
         <Head>
           <Row>
             <Cell>Rank</Cell>
             <Cell className={s.nameHeadCoin}>Name</Cell>
             <Cell>Symbol</Cell>
             <Cell>Price, usd</Cell>
-            <Cell>Market Cap, usd</Cell>
+            <Cell>Market Cap, $</Cell>
             <Cell> Circulating Supply</Cell>
             <Cell>Volume (24h), usd</Cell>
             <Cell>24h %</Cell>
@@ -74,22 +76,31 @@ export const Assets = (props: any) => {
                   <p className={s.nameCoin}>{item.name}</p>
                 </NavLink>
               </Cell>
-              <Cell><p>{item.symbol}</p></Cell>
               <Cell>
-                <p>{Number(item.priceUsd).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
+                {item.symbol}</Cell>
+              <Cell>
+                {Number(item.priceUsd).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
               </Cell>
               <Cell>
-                <p>{(((Number(item.marketCapUsd) * 10) / 10) / 1000000000).toFixed(2)} b</p>
+                {(((Number(item.marketCapUsd) * 10) / 10) / 1000000000).toFixed(2)} b
               </Cell>
               <Cell>
-                <p>{(((Number(item.supply) * 10) / 10) / 1000000).toFixed(2)}m</p>
+                {(((Number(item.supply) * 10) / 10) / 1000000).toFixed(2)} m
               </Cell>
               <Cell>
-                <p>{(((Number(item.volumeUsd24Hr) * 10) / 10) / 1000000000).toFixed(2)} m</p>
+                {(((Number(item.volumeUsd24Hr) * 10) / 10) / 1000000000).toFixed(2)} m
               </Cell>
-              <Cell><p>{Number(item.changePercent24Hr).toFixed(2)}</p></Cell>
               <Cell>
-                <p>{Number(item.vwap24Hr).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
+                <p
+                  className={Number(item.changePercent24Hr) > 0 ? s.changePercent24HrUp + ' ' + s.changePercent24Hr : s.changePercent24HrDown + ' ' + s.changePercent24Hr}>
+                  {Number(item.changePercent24Hr).toFixed(2)}
+                  {Number(item.changePercent24Hr) > 0
+                    ? <ArrowUp/>
+                    : <ArrowDown/>}
+                </p>
+              </Cell>
+              <Cell>
+                {Number(item.vwap24Hr).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
               </Cell>
               <Cell>
                 <button>+</button>

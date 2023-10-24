@@ -5,6 +5,24 @@
     margin: 0 auto;
     max-width: 1450px;
 
+    .root {
+      border-right: 1px solid rgba(161, 159, 159, 0.5);
+      border-left: 1px solid rgba(161, 159, 159, 0.5);
+
+      .changePercent24Hr {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .changePercent24HrUp {
+        color: green;
+      }
+
+      .changePercent24HrDown {
+        color: red;
+      }
+    }
 
     .nameHeadCoin {
       max-width: 150px;

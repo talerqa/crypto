@@ -1,12 +1,105 @@
 .coinBlock {
+  display: flex;
+  flex-wrap: wrap;
   margin: 0 auto;
   max-width: 1450px;
-  height: 500px;
-}
+  height: 550px;
+  transform: translateY(50px);
 
-.table {
-  margin: 0 auto;
-  display: block;
-  width: 100%;
-  height: 100%;
+  .coinInformation {
+    max-width: 300px;
+    padding: 10px 30px;
+    height: 100%;
+    margin: 0 auto 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(101, 98, 98, 0.62);
+    border-radius: 20px;
+    box-shadow: rgba(101, 98, 98, 0.62) 0 0 4px;
+
+    .coinSymbolImg {
+      display: flex;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+
+      .imgCoin {
+        width: 45px;
+        height: 45px;
+        margin-right: 15px;
+      }
+
+      .symbol {
+        color: rgba(26, 26, 26, 0.33);
+        font-weight: 700;
+        font-size: 32px;
+      }
+    }
+
+    .name {
+      margin: 0 auto 15px;
+      display: block;
+      font-size: 40px;
+      align-self: center;
+      text-align: center;
+    }
+
+    .infoSecond {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .price {
+      margin: 0 auto 15px;
+      font-weight: 600;
+      font-size: 28px;
+    }
+
+    .marketCup,
+    .circulatingSupply,
+    .volumeUsd,
+    .volume,
+    .volumeWA {
+      margin: 0 auto 5px;
+      font-weight: 500;
+      font-size: 20px;
+    }
+
+    .volumeData {
+      margin: 0 auto 5px;
+      color: #1a1a1a;
+      font-weight: 500;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .up {
+      color: green;
+      padding: 0 5px;
+    }
+
+    .down {
+      padding: 0 5px;
+      color: red;
+    }
+  }
+
+  .table {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 90%;
+
+    .titleStatTable {
+      margin: 0 auto;
+      text-align: center;
+      font-size: 32px;
+    }
+  }
 }

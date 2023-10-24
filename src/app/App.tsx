@@ -23,7 +23,6 @@ function App() {
     <div className={s.app}>
       <div className={s.appContainer}>
         <Header data={data?.data}/>
-
         <Routes>
           <Route path={'/'} element={<Assets data1={data?.data}/>}/>
           <Route path={':id'} element={<Coin data={data?.data}/>}/>

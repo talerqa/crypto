@@ -13,7 +13,7 @@ export const Header = (props: any) => {
     <div className={s.headerContanier}>
       <NavLink to={'/'} className={s.logoBlock}>
         <img src={logo} alt="LOGO" className={s.logoImg}/>
-        <span className={s.logoTitle}>Crypto Market</span>
+        <span className={s.logoTitle}>Crypto</span>
       </NavLink>
       <div className={s.firstThreeCoin}>
         {firstThreeCoin?.map((item: TypeData) => {

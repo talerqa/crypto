@@ -6,7 +6,7 @@ type RootProps = ComponentProps<"table">;
 
 const Root = ({className, children, ...rest}: RootProps) => {
   return (
-    <table className={s.table} {...rest}>
+    <table className={s.table + ' ' + className} {...rest}>
       {children}
     </table>
   );
@@ -26,9 +26,9 @@ const Body = ({children, ...rest}: BodyProps) => {
 
 type RowProps = ComponentProps<"tr">;
 
-const Row = ({children, ...rest}: RowProps) => {
+const Row = ({className, children, ...rest}: RowProps) => {
   return (
-    <tr className={s.tableRow} {...rest}>
+    <tr className={s.tableRow + ' ' + className} {...rest}>
       {children}
     </tr>
   );
