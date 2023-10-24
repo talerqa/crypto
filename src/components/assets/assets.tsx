@@ -5,6 +5,7 @@ import {TypeData} from "@/servicies/baseApi.type.ts";
 import {InputFindCoin} from "@/components/inputFindCoin";
 import {useEffect, useState} from "react";
 import {useGetAssetsQuery} from "@/servicies/baseApi.ts";
+import {Loader} from "@/components/loader";
 
 export const Assets = (props: any) => {
 
@@ -26,7 +27,7 @@ export const Assets = (props: any) => {
     setOffset((offset) => offset + offset)
   }
 
-  const {data, refetch} = useGetAssetsQuery({
+  const {data, isLoading, refetch} = useGetAssetsQuery({
     ...a, limit: limit,
     offset: offset,
   })
@@ -43,6 +44,7 @@ export const Assets = (props: any) => {
   const {Root, Head, Body, Row, Cell} = Table
   return <div className={s.assets}>
     <div className={s.assetsContainer}>
+      {isLoading && <Loader/>}
       <InputFindCoin setName={setName}/>
       <Root>
         <Head>
@@ -56,6 +58,7 @@ export const Assets = (props: any) => {
             <Cell>Volume (24h), usd</Cell>
             <Cell>24h %</Cell>
             <Cell>Volume WA (24Hr)</Cell>
+            <Cell></Cell>
           </Row>
         </Head>
         <Body>
@@ -88,11 +91,15 @@ export const Assets = (props: any) => {
               <Cell>
                 <p>{Number(item.vwap24Hr).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
               </Cell>
+              <Cell>
+                <button>+</button>
+              </Cell>
             </Row>
           })}
         </Body>
       </Root>
-      <button onClick={() => AddCoin()} className={s.buttonAddCoins}>view more</button>
+      <button onClick={() => AddCoin()} className={s.buttonAddCoins}>view more
+      </button>
     </div>
   </div>
 }
