@@ -8,8 +8,6 @@ import {useGetAssetsQuery} from "@/servicies/baseApi.ts";
 
 export const Assets = (props: any) => {
 
-
-
   const {data1} = props
   const [name, setName] = useState('')
 
@@ -42,7 +40,6 @@ export const Assets = (props: any) => {
     })
   }, [data1, refetch])
 
-
   const {Root, Head, Body, Row, Cell} = Table
   return <div className={s.assets}>
     <div className={s.assetsContainer}>
@@ -51,14 +48,14 @@ export const Assets = (props: any) => {
         <Head>
           <Row>
             <Cell>Rank</Cell>
-            <Cell>Name</Cell>
+            <Cell className={s.nameHeadCoin}>Name</Cell>
             <Cell>Symbol</Cell>
             <Cell>Price, usd</Cell>
-            <Cell>marketCapUsd</Cell>
-            <Cell>supply</Cell>
-            <Cell>volumeUsd24Hr</Cell>
-            <Cell>%(24h)</Cell>
-            <Cell>Volume (24Hr)</Cell>
+            <Cell>Market Cap, usd</Cell>
+            <Cell> Circulating Supply</Cell>
+            <Cell>Volume (24h), usd</Cell>
+            <Cell>24h %</Cell>
+            <Cell>Volume WA (24Hr)</Cell>
           </Row>
         </Head>
         <Body>
@@ -66,12 +63,12 @@ export const Assets = (props: any) => {
             return <Row key={item.id}>
               <Cell><p>{item.rank}</p></Cell>
               <Cell>
-                <NavLink to={`/${item.id}`}>
+                <NavLink to={`/${item.id}`} className={s.nameImgBlockCoin}>
                   <img
                     className={s.imgCoin}
                     src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
                     alt={`${item.name}-img`}/>
-                  <p>{item.name}</p>
+                  <p className={s.nameCoin}>{item.name}</p>
                 </NavLink>
               </Cell>
               <Cell><p>{item.symbol}</p></Cell>
@@ -93,10 +90,9 @@ export const Assets = (props: any) => {
               </Cell>
             </Row>
           })}
-
         </Body>
       </Root>
-      <button onClick={() => AddCoin()}>view more</button>
+      <button onClick={() => AddCoin()} className={s.buttonAddCoins}>view more</button>
     </div>
   </div>
 }

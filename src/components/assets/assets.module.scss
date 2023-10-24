@@ -1,14 +1,40 @@
 .assets {
-  width: 100%;
-
   .assetsContainer {
     margin: 0 auto;
+    max-width: 1450px;
 
-  .imgCoin {
-    width: 45px;
-    height: 45px;
+    .nameHeadCoin {
+      width: 150px;
+    }
+
+    .nameImgBlockCoin {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+
+      .nameCoin {
+        width: 140px;
+        word-break: break-word;
+      }
+
+      .imgCoin {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+      }
+    }
+
+    .buttonAddCoins {
+      display: block;
+      margin: 10px auto;
+      background-color: rgba(26, 26, 26, 0.26);
+      color: #181818;
+      border-radius: 30px;
+
+      &:hover {
+        box-shadow: #1a1a1a 0 0 3px;
+
+      }
+    }
   }
-  }
-
-
 }

@@ -1,6 +1,26 @@
 .table {
   margin: 0 auto;
-  padding: 20px;
-  border-collapse: separate;
-  border-spacing: 20px;
+  border-collapse: unset;
+  border-spacing: 0;
+  width: 100%;
+  border-right: 1px solid rgba(161, 159, 159, 0.5);
+  border-left: 1px solid rgba(161, 159, 159, 0.5);
+
+  .head {
+    background-color: #d5d5d5;
+    height: 65px;
+    color: #646cff;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .cell {
+    padding: 0 15px;
+    text-align: center;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(161, 159, 159, 0.7);
+    border-right: 1px solid rgba(161, 159, 159, 0.1);
+  }
+
 }

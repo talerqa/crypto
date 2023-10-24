@@ -4,7 +4,7 @@ import s from "./table.module.scss";
 
 type RootProps = ComponentProps<"table">;
 
-const Root = ({ className, children, ...rest }: RootProps) => {
+const Root = ({className, children, ...rest}: RootProps) => {
   return (
     <table className={s.table} {...rest}>
       {children}
@@ -14,19 +14,19 @@ const Root = ({ className, children, ...rest }: RootProps) => {
 
 type HeadProps = ComponentProps<"thead">;
 
-const Head = ({ children, ...rest }: HeadProps) => {
-  return <thead {...rest}>{children}</thead>;
+const Head = ({children, ...rest}: HeadProps) => {
+  return <thead className={s.head} {...rest}>{children}</thead>;
 };
 
 type BodyProps = ComponentProps<"tbody">;
 
-const Body = ({ children, ...rest }: BodyProps) => {
-  return <tbody {...rest}>{children}</tbody>;
+const Body = ({children, ...rest}: BodyProps) => {
+  return <tbody className={s.body} {...rest}>{children}</tbody>;
 };
 
 type RowProps = ComponentProps<"tr">;
 
-const Row = ({ children, ...rest }: RowProps) => {
+const Row = ({children, ...rest}: RowProps) => {
   return (
     <tr className={s.tableRow} {...rest}>
       {children}
@@ -34,24 +34,24 @@ const Row = ({ children, ...rest }: RowProps) => {
   );
 };
 
-type HeadCellProps = ComponentProps<"th">;
-
-const HeadCell = ({ className, children, ...rest }: HeadCellProps) => {
-  return (
-    <th className={""} {...rest}>
-      {children}
-    </th>
-  );
-};
-
 type CellProps = ComponentProps<"td">;
-
-const Cell = ({ className, children, ...rest }: CellProps) => {
+const Cell = ({className, children, ...rest}: CellProps) => {
   return (
-    <td className={""} {...rest}>
+    <td className={s.cell + ' ' + className} {...rest}>
       {children}
     </td>
   );
 };
 
-export const Table = { Root, Head, Body, Row, HeadCell, Cell };
+type HeadCellProps = ComponentProps<"th">;
+
+const HeadCell = ({className, children, ...rest}: HeadCellProps) => {
+  return (
+    <th className={s.headCell} {...rest}>
+      {children}
+    </th>
+  );
+};
+
+
+export const Table = {Root, Head, Body, Row, HeadCell, Cell};
