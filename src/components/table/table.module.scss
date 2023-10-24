@@ -8,7 +8,7 @@
 
   .head {
     background-color: #d5d5d5;
-    height: 65px;
+    min-height: 75px;
     color: #646cff;
     font-size: 18px;
     font-weight: 500;
@@ -19,6 +19,8 @@
     padding: 0 15px;
     text-align: center;
     font-weight: 500;
+    height: 75px;
+
     border-bottom: 1px solid rgba(161, 159, 159, 0.7);
     border-right: 1px solid rgba(161, 159, 159, 0.1);
   }
