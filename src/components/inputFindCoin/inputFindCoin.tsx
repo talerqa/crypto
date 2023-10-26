@@ -13,7 +13,7 @@ export const InputFindCoin = (props: Props) => {
     <div className={s.inputBlock}>
       <SearchIcon className={s.searchIcon}/>
       <input className={s.input}
-             type="text"
+             type="search"
              onChange={(e) => props.setName(e.currentTarget.value)}/>
     </div>
   </div>

@@ -10,16 +10,24 @@
       border-left: 1px solid rgba(161, 159, 159, 0.5);
 
       .changePercent24Hr {
+        margin: 0 auto;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
+
       }
 
       .changePercent24HrUp {
+        margin: 0;
+        align-self: flex-end;
+        padding-left: 5px;
         color: green;
+
       }
 
       .changePercent24HrDown {
+        margin: 0;
+        align-self: flex-end;
         color: red;
       }
     }

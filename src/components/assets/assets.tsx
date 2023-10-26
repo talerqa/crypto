@@ -8,6 +8,9 @@ import {useGetAssetsQuery} from "@/servicies/baseApi.ts";
 import {Loader} from "@/components/loader";
 import {ArrowDown} from "@/assets/arrowDown.tsx";
 import {ArrowUp} from "@/assets/arrowUp.tsx";
+import {useAppDispatch, useAppSelector} from "@/hooks.ts";
+import {addCoinInPortfolio} from "@/servicies/coinPortfolio.ts";
+import {AddCoinInPortfolio} from "@/components/addCoinInPortfolio";
 
 export const Assets = (props: any) => {
 
@@ -43,10 +46,38 @@ export const Assets = (props: any) => {
     })
   }, [data1, refetch])
 
+
+  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
+  const dispatch = useAppDispatch()
+  console.log(coinPortfolio)
+  const handler = (data: TypeData) => {
+    dispatch(addCoinInPortfolio({coin: data}))
+  }
+
+  // const initState = {
+  //   minValue: Number(localStorage.getItem('valueMax')),
+  //   maxValue: Number(localStorage.getItem('valueMin')),
+  //   currentValue: Number(localStorage.getItem('valueCurrent'))
+  // }
+  //
+  // export const getValueTC = () => async (dispatch: Dispatch, getState: () => RootReducer) => {
+  //   const currentValue = getState().counterReducer.currentValue
+  //   const maxValue = getState().counterReducer.maxValue
+  //   const minValue = getState().counterReducer.minValue
+  //
+  //   await localStorage.setItem('valueMin', JSON.stringify(minValue))
+  //   await localStorage.setItem('valueMax', JSON.stringify(maxValue))
+  //   await localStorage.setItem('valueCurrent', JSON.stringify(currentValue))
+  // }
+
+  localStorage.setItem('value', JSON.stringify(coinPortfolio))
+
+
   const {Root, Head, Body, Row, Cell} = Table
   return <div className={s.assets}>
     <div className={s.assetsContainer}>
       {isLoading && <Loader/>}
+      <AddCoinInPortfolio/>
       <InputFindCoin setName={setName}/>
       <Root className={data?.data.length !== 0 ? s.root : ""}>
         <Head>
@@ -94,16 +125,21 @@ export const Assets = (props: any) => {
                 <p
                   className={Number(item.changePercent24Hr) > 0 ? s.changePercent24HrUp + ' ' + s.changePercent24Hr : s.changePercent24HrDown + ' ' + s.changePercent24Hr}>
                   {Number(item.changePercent24Hr).toFixed(2)}
-                  {Number(item.changePercent24Hr) > 0
-                    ? <ArrowUp/>
-                    : <ArrowDown/>}
+                  <>
+                    {Number(item.changePercent24Hr) > 0
+                      ? <ArrowUp/>
+                      : <ArrowDown/>}
+                  </>
                 </p>
               </Cell>
               <Cell>
                 {Number(item.vwap24Hr).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
               </Cell>
               <Cell>
-                <button>+</button>
+                <button onClick={() => {
+                  handler(item)
+                }}>+
+                </button>
               </Cell>
             </Row>
           })}
@@ -114,3 +150,5 @@ export const Assets = (props: any) => {
     </div>
   </div>
 }
+
+
