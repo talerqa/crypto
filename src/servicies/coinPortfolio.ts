@@ -1,14 +1,16 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {TypeData} from "@/servicies/baseApi.type.ts";
+import {TypeData, TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
 
-const initialState: TypeData[] = []
+const initialState: Array<TypeDataInPortfolio>  = []
 console.log(initialState)
 export const slice = createSlice({
   name: 'coinPortfolio',
   initialState,
   reducers: {
-    addCoinInPortfolio: (state, action: PayloadAction<{ coin: TypeData }>) => {
-      state.push(action.payload.coin)
+    addCoinInPortfolio: (state, action: PayloadAction<{ coin: TypeData[], valueOfCoin: string | number }>) => {
+
+
+      state.push({...action.payload.coin[0], valueOfCoin: action.payload.valueOfCoin})
     }
   },
   extraReducers: () => {

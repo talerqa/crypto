@@ -1,13 +1,55 @@
 import logo from "@/assets/logo.png";
 import s from './header.module.scss'
 import {NavLink} from "react-router-dom";
-import {TypeData} from "@/servicies/baseApi.type.ts";
+import {TypeData, TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
+import {useAppSelector} from "@/hooks.ts";
 
 export const Header = (props: any) => {
   const {data} = props
 
   const firstThreeCoin = data?.filter((item: TypeData) => item.rank ===
   '1' || item.rank === '2' || item.rank === '3' ? item : '')
+
+
+  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
+
+  let a: any = []
+  const uniqueCombination: any = {};
+
+
+// Создаем новый массив, содержащий только объекты с общими значениями valueOfCoin и totalPrice
+
+// Создаем новый массив, содержащий только объекты с общими значениями valueOfCoin и totalPrice
+
+  const handler = () => {
+    coinPortfolio.map((item: TypeDataInPortfolio) => {
+
+      const neObj = {
+        id: item.id,
+        symbol: item.symbol,
+        name: item.name,
+        valueOfCoin: Number(item.valueOfCoin),
+        totalPrice: Number(item.valueOfCoin) * Number(item.priceUsd)
+      }
+      a.push(neObj)
+    })
+
+    console.log(a)
+    let result = a.reduce((acc, obj) => {
+      const foundIndex = acc.findIndex((item: any) => item.id === obj.id);
+      if (foundIndex === -1) {
+        acc.push(obj);
+      } else {
+        acc[foundIndex].valueOfCoin += obj.valueOfCoin
+        acc[foundIndex].totalPrice += obj.totalPrice;
+      }
+      return acc;
+    }, []);
+
+    console.log(result);
+
+  }
+
 
   return <header className={s.header}>
     <div className={s.headerContanier}>
@@ -33,7 +75,9 @@ export const Header = (props: any) => {
           </NavLink>
         })}
       </div>
-      <div>PORTFEL</div>
+      <div onClick={() => handler()}>PORTFEL
+        {coinPortfolio.length}
+      </div>
     </div>
   </header>
 }

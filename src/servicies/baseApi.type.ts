@@ -24,3 +24,5 @@ export type TypeData = {
 }
 
 export type TypeDataPick = Partial<TypeData> & { search?: string, limit?: number, offset?: number }
+
+export type TypeDataInPortfolio = TypeData & {valueOfCoin: string | number}

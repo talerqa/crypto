@@ -8,9 +8,8 @@ import {useGetAssetsQuery} from "@/servicies/baseApi.ts";
 import {Loader} from "@/components/loader";
 import {ArrowDown} from "@/assets/arrowDown.tsx";
 import {ArrowUp} from "@/assets/arrowUp.tsx";
-import {useAppDispatch, useAppSelector} from "@/hooks.ts";
-import {addCoinInPortfolio} from "@/servicies/coinPortfolio.ts";
 import {AddCoinInPortfolio} from "@/components/addCoinInPortfolio";
+
 
 export const Assets = (props: any) => {
 
@@ -47,37 +46,20 @@ export const Assets = (props: any) => {
   }, [data1, refetch])
 
 
-  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
-  const dispatch = useAppDispatch()
-  console.log(coinPortfolio)
-  const handler = (data: TypeData) => {
-    dispatch(addCoinInPortfolio({coin: data}))
+const [activeMenu, setActiveMenu] = useState(false)
+
+  const [item, setItem] = useState<any>(null)
+
+  const handler = (itemId: any)=> {
+    setItem(itemId)
   }
-
-  // const initState = {
-  //   minValue: Number(localStorage.getItem('valueMax')),
-  //   maxValue: Number(localStorage.getItem('valueMin')),
-  //   currentValue: Number(localStorage.getItem('valueCurrent'))
-  // }
-  //
-  // export const getValueTC = () => async (dispatch: Dispatch, getState: () => RootReducer) => {
-  //   const currentValue = getState().counterReducer.currentValue
-  //   const maxValue = getState().counterReducer.maxValue
-  //   const minValue = getState().counterReducer.minValue
-  //
-  //   await localStorage.setItem('valueMin', JSON.stringify(minValue))
-  //   await localStorage.setItem('valueMax', JSON.stringify(maxValue))
-  //   await localStorage.setItem('valueCurrent', JSON.stringify(currentValue))
-  // }
-
-  localStorage.setItem('value', JSON.stringify(coinPortfolio))
 
 
   const {Root, Head, Body, Row, Cell} = Table
   return <div className={s.assets}>
     <div className={s.assetsContainer}>
       {isLoading && <Loader/>}
-      <AddCoinInPortfolio/>
+      {activeMenu && <AddCoinInPortfolio coin={item} setActiveMenu={setActiveMenu} activeMenu={activeMenu} data={data?.data}/>}
       <InputFindCoin setName={setName}/>
       <Root className={data?.data.length !== 0 ? s.root : ""}>
         <Head>
@@ -137,12 +119,15 @@ export const Assets = (props: any) => {
               </Cell>
               <Cell>
                 <button onClick={() => {
-                  handler(item)
+                  handler(item.id)
+                  setActiveMenu(!activeMenu)
                 }}>+
                 </button>
+
               </Cell>
             </Row>
           })}
+
         </Body>
       </Root>
       <button onClick={() => AddCoin()} className={s.buttonAddCoins}>view more
