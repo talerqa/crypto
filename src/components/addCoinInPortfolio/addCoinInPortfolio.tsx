@@ -58,18 +58,17 @@ export const AddCoinInPortfolio = (props: Props) => {
   //   setCount(1)
   //   dispatch(resetDefaultValueItem({id}))
   // }, [count])
-  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
   const dispatch = useAppDispatch()
 
   const handler = (id: any, value: any) => {
 
     const filteredData = props.data.filter((item: any)=> item.id === id ? item : '')
-    console.log(filteredData)
+
 
 
     dispatch(addCoinInPortfolio({coin: filteredData, valueOfCoin: value}))
   }
-  localStorage.setItem('value', JSON.stringify(coinPortfolio))
+
 
 
   return (<div className={s.addCoinInPortfolio}>

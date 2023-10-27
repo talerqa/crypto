@@ -6,7 +6,7 @@ import {coinPortfolio} from "@/servicies/coinPortfolio.ts";
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    coinPortfolio
+    coinPortfolio: coinPortfolio
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

@@ -11,46 +11,6 @@ export const Header = (props: any) => {
   '1' || item.rank === '2' || item.rank === '3' ? item : '')
 
 
-  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
-
-  let a: any = []
-  const uniqueCombination: any = {};
-
-
-// Создаем новый массив, содержащий только объекты с общими значениями valueOfCoin и totalPrice
-
-// Создаем новый массив, содержащий только объекты с общими значениями valueOfCoin и totalPrice
-
-  const handler = () => {
-    coinPortfolio.map((item: TypeDataInPortfolio) => {
-
-      const neObj = {
-        id: item.id,
-        symbol: item.symbol,
-        name: item.name,
-        valueOfCoin: Number(item.valueOfCoin),
-        totalPrice: Number(item.valueOfCoin) * Number(item.priceUsd)
-      }
-      a.push(neObj)
-    })
-
-    console.log(a)
-    let result = a.reduce((acc, obj) => {
-      const foundIndex = acc.findIndex((item: any) => item.id === obj.id);
-      if (foundIndex === -1) {
-        acc.push(obj);
-      } else {
-        acc[foundIndex].valueOfCoin += obj.valueOfCoin
-        acc[foundIndex].totalPrice += obj.totalPrice;
-      }
-      return acc;
-    }, []);
-
-    console.log(result);
-
-  }
-
-
   return <header className={s.header}>
     <div className={s.headerContanier}>
       <NavLink to={'/'} className={s.logoBlock}>
@@ -60,7 +20,7 @@ export const Header = (props: any) => {
       <div className={s.firstThreeCoin}>
         {firstThreeCoin?.map((item: TypeData) => {
           return <NavLink to={`/${item.id}`} key={item.id}
-                          className={s.itemCoin}>
+                          className={s.itemCoin} >
             <img className={s.logoCoin}
                  src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
                  alt={`${item.id}-logo`}/>
@@ -74,10 +34,57 @@ export const Header = (props: any) => {
             </div>
           </NavLink>
         })}
+
       </div>
-      <div onClick={() => handler()}>PORTFEL
-        {coinPortfolio.length}
-      </div>
+      <Portfolio/>
     </div>
   </header>
+}
+
+
+export const Portfolio = () => {
+  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
+
+  let a = []
+  coinPortfolio.map((item: TypeDataInPortfolio) => {
+    const neObj = {
+      id: item.id,
+      symbol: item.symbol,
+      name: item.name,
+      valueOfCoin: Number(item.valueOfCoin),
+      totalPrice: Number(item.valueOfCoin) * Number(item.priceUsd)
+    }
+    a.push(neObj)
+  })
+  let totalCoinInPortfolio = a.reduce((acc: any, obj) => {
+    const foundIndex = acc.findIndex((item: any) => item.id === obj.id);
+    if (foundIndex === -1) {
+      acc.push(obj);
+    } else {
+      acc[foundIndex].valueOfCoin += obj.valueOfCoin
+      acc[foundIndex].totalPrice += obj.totalPrice;
+    }
+    return acc;
+  }, [])
+  localStorage.setItem('value', JSON.stringify(totalCoinInPortfolio))
+
+
+  return <div>
+    {totalCoinInPortfolio.map((item: {
+      id: string,
+      symbol: string,
+      name: string,
+      valueOfCoin: number,
+      totalPrice: number
+    }) => {
+      return <div>
+        <p> {item.id}</p>
+        <p>{item.name}</p>
+        <p>{item.symbol}</p>
+        <p> {item.valueOfCoin}</p>
+        <p>{item.totalPrice}</p>
+      </div>
+    })}
+  </div>
+
 }
