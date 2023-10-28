@@ -4,7 +4,11 @@ import {NavLink} from "react-router-dom";
 import {TypeData} from "@/servicies/baseApi.type.ts";
 import {Portfolio} from "@/components/header/portfolio";
 
-export const Header = (props: any) => {
+type PropsType = {
+  data?: TypeData[]
+}
+
+export const Header = (props: PropsType) => {
   const {data} = props
 
   const firstThreeCoin = data?.filter((item: TypeData) => item.rank ===

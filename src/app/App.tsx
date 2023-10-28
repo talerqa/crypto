@@ -17,14 +17,14 @@ function App() {
     return (() => {
       clearInterval(setId)
     })
-  }, [data, refetch])
+  }, [refetch])
 
   return (
     <div className={s.app}>
       <div className={s.appContainer}>
         <Header data={data?.data}/>
         <Routes>
-          <Route path={'/'} element={<Assets data1={data?.data}/>}/>
+          <Route path={'/'} element={<Assets/>}/>
           <Route path={':id'} element={<Coin data={data?.data}/>}/>
         </Routes>
       </div>

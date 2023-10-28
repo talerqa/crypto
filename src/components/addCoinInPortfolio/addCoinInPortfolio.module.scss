@@ -15,13 +15,57 @@ input[type=number] {
   position: relative;
 
   .addCoinInPortfolioContainer {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, 70%);
     width: 500px;
     height: 300px;
-    border: 1px solid red;
-    background-color: #e7d7d7;
+    border: 1px solid rgba(100, 100, 100, 0.49);
+    border-radius: 10px;
+    background-color: #beb9b9;
+
+
+    .buttonClose {
+      padding: 15px;
+      align-self: flex-end;
+    }
+
+    .title {
+      margin: 0 auto;
+      padding: 5px 0;
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .input {
+      width: 215px;
+      height: 40px;
+      font-size: 20px;
+      align-self: center;
+      text-align: center;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .buttonAddCoinPortfolio {
+      align-self: center;
+      max-width: 215px;
+      margin: 25px auto;
+      box-shadow: #1a1a1a 0 0 5px;
+
+      .textButtonAddCoinPortfolio {
+        padding: 5px 5px;
+      }
+    }
+    .error {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: rgba(234, 17, 17, 0.75);
+    }
   }
 }

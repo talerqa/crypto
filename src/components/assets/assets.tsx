@@ -10,29 +10,27 @@ import {ArrowDown} from "@/assets/arrowDown.tsx";
 import {ArrowUp} from "@/assets/arrowUp.tsx";
 import {AddCoinInPortfolio} from "@/components/addCoinInPortfolio";
 
+export const Assets = () => {
 
-export const Assets = (props: any) => {
+  const {Root, Head, Body, Row, Cell} = Table
 
-  const {data1} = props
   const [name, setName] = useState('')
+  const [offset, setOffset] = useState<number>(0)
+  const [limit, setLimit] = useState<number>(10)
+  const [activeMenu, setActiveMenu] = useState(false)
+  const [item, setItem] = useState<any>(null)
 
-  let a: any | null = null
+  let searchName: { search: string } | null = null
+
   if (name.length > 0) {
-    a = {
+    searchName = {
       search: name,
     }
   }
 
-  const [offset, setOffset] = useState<number>(0)
-  const [limit, setLimit] = useState<number>(10)
-
-  const AddCoin = () => {
-    setLimit(limit => limit + 10)
-    setOffset((offset) => offset + offset)
-  }
-
   const {data, isLoading, refetch} = useGetAssetsQuery({
-    ...a, limit: limit,
+    ...searchName,
+    limit: limit,
     offset: offset,
   })
 
@@ -43,23 +41,23 @@ export const Assets = (props: any) => {
     return (() => {
       clearInterval(setId)
     })
-  }, [data1, refetch])
+  }, [refetch])
 
+  const AddCoin = () => {
+    setLimit(limit => limit + 10)
+    setOffset((offset) => offset + offset)
+  }
 
-const [activeMenu, setActiveMenu] = useState(false)
-
-  const [item, setItem] = useState<any>(null)
-
-  const handler = (itemId: any)=> {
+  const showModalForAddCoin = (itemId: string) => {
     setItem(itemId)
   }
 
-
-  const {Root, Head, Body, Row, Cell} = Table
   return <div className={s.assets}>
     <div className={s.assetsContainer}>
       {isLoading && <Loader/>}
-      {activeMenu && <AddCoinInPortfolio coin={item} setActiveMenu={setActiveMenu} activeMenu={activeMenu} data={data?.data}/>}
+      {activeMenu &&
+          <AddCoinInPortfolio coin={item} setActiveMenu={setActiveMenu}
+                              data={data?.data}/>}
       <InputFindCoin setName={setName}/>
       <Root className={data?.data.length !== 0 ? s.root : ""}>
         <Head>
@@ -118,19 +116,22 @@ const [activeMenu, setActiveMenu] = useState(false)
                 {Number(item.vwap24Hr).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
               </Cell>
               <Cell>
-                <button onClick={() => {
-                  handler(item.id)
-                  setActiveMenu(!activeMenu)
-                }}>+
+                <button
+                  className={s.buttonAddCoins}
+                  onClick={() => {
+                    showModalForAddCoin(item.id)
+                    setActiveMenu(!activeMenu)
+                  }}>
+                  <p className={s.textButtonAdd}>+</p>
                 </button>
-
               </Cell>
             </Row>
           })}
-
         </Body>
       </Root>
-      <button onClick={() => AddCoin()} className={s.buttonAddCoins}>view more
+      <button
+        onClick={() => AddCoin()}
+        className={s.buttonViewMore}>View More
       </button>
     </div>
   </div>

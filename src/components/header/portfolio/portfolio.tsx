@@ -1,6 +1,8 @@
 import {useAppDispatch, useAppSelector} from "@/hooks.ts";
 import {useEffect} from "react";
 import {portfolioAction} from "@/servicies/portfolio.ts";
+import {TypeData, TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
+import s from './portfolio.module.scss'
 
 export const Portfolio = () => {
 
@@ -11,50 +13,40 @@ export const Portfolio = () => {
   const {getCoin} = portfolioAction
 
   useEffect(() => {
-      let a: any = []
-      let totalCoinInPortfolio: any = []
+    let a: TypeData[] = []
+    let totalCoinInPortfolio: TypeData[] = []
 
-      if (coinPortfolio.length) {
+    if (coinPortfolio.length) {
+      coinPortfolio.map((item: TypeDataInPortfolio) => {
+        const neObj = {
+          ...item,
+          valueOfCoin: Number(item.valueOfCoin),
+          totalPrice: Number(item.valueOfCoin) * Number(item.priceUsd)
+        }
+        a.push(neObj)
+      })
 
-        coinPortfolio.map((item: any) => {
-          debugger
-          const neObj = {
-            ...item,
-            valueOfCoin: Number(item.valueOfCoin),
-            totalPrice: Number(item.valueOfCoin) * Number(item.priceUsd)
-          }
-          a.push(neObj)
-        })
+      totalCoinInPortfolio = a.reduce((acc: TypeDataInPortfolio[], obj: any) => {
+        const foundIndex = acc.findIndex((item: TypeDataInPortfolio) => item.id === obj.id);
+        if (foundIndex === -1) {
+          acc.push(obj);
+        } else {
+          acc[foundIndex].valueOfCoin += obj.valueOfCoin
+          acc[foundIndex].totalPrice += obj.totalPrice
+        }
+        return acc;
+      }, [])
+    }
+    dispatch(getCoin({coin: totalCoinInPortfolio}))
+    localStorage.setItem('value', JSON.stringify(totalCoinInPortfolio))
+  }, [coinPortfolio])
 
-        totalCoinInPortfolio = a.reduce((acc: any, obj: any) => {
-          debugger
-          const foundIndex = acc.findIndex((item: any) => item.id === obj.id);
-          if (foundIndex === -1) {
-            acc.push(obj);
-          } else {
-
-            acc[foundIndex].valueOfCoin += Number(obj.valueOfCoin)
-            acc[foundIndex].totalPrice += Number(obj.totalPrice)
-
-          }
-          return acc;
-        }, [])
-
-      }
-    debugger
-      dispatch(getCoin({coin: totalCoinInPortfolio}))
-      localStorage.setItem('value', JSON.stringify(totalCoinInPortfolio))
-    },    [coinPortfolio])
-
-  console.log(portfolio[0]?.priceUsd)
-  return <div>
-    {portfolio?.map((item: any) => {
-      return <div style={{display: 'flex'}} key={item.id}>
-        <p>{item.id}</p>
+  return <div className={s.portfolio}>
+    {portfolio?.map((item: TypeDataInPortfolio) => {
+      return <div className={s.infoAboutCoin} key={item.id}>
         <p>{item.name}</p>
-        <p>{item.symbol}</p>
         <p>{item.valueOfCoin}</p>
-        <p>{item.totalPrice}</p>
+        <p>{Number(item.totalPrice).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
       </div>
     })}
   </div>

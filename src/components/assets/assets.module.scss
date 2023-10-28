@@ -54,6 +54,25 @@
     }
 
     .buttonAddCoins {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(159, 152, 152, 0.62);
+      border-radius: 50%;
+      text-align: center;
+
+      .textButtonAdd {
+        margin: 0 auto;
+        font-size: 32px;
+      transform: translateY(-2px);
+        font-weight: 700;
+      }
+    }
+
+    .buttonViewMore {
       display: block;
       margin: 10px auto;
       background-color: rgba(26, 26, 26, 0.26);
