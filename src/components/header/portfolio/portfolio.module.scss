@@ -1,0 +1,75 @@
+.header {
+  margin: 0 auto;
+  width: 100%;
+  background-color: rgba(169, 169, 169, 0.22);
+
+  .headerContanier {
+    max-width: 1450px;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+
+    .logoBlock {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .logoImg {
+        width: 40px;
+        height: 40px;
+        padding: 5px;
+      }
+
+      .logoTitle {
+        font-family: "Gadugi", sans-serif;
+        color: #1a1a1a;
+        font-weight: bold;
+        font-size: 36px;
+      }
+    }
+
+    .firstThreeCoin {
+      display: flex;
+
+      .itemCoin {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        &:not(:last-child) {
+          margin-right: 15px;
+        }
+
+        .logoCoin {
+          width: 40px;
+          height: 40px;
+          margin-right: 5px;
+        }
+
+        .namePriceBlock {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+
+          .itemNameCoin {
+            margin: 0;
+          }
+        }
+
+        .price {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
