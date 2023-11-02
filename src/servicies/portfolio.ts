@@ -10,6 +10,9 @@ export const slice = createSlice({
   reducers: {
     getCoin: (_: any, action: PayloadAction<{ coin: any }>) => {
       return action.payload.coin
+    },
+    deleteCoin: () => {
+      return []
     }
   },
   extraReducers: () => {

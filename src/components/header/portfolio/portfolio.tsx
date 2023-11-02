@@ -10,7 +10,9 @@ export const Portfolio = () => {
   const portfolio = useAppSelector(state => state.portfolio)
 
   const dispatch = useAppDispatch()
-  const {getCoin} = portfolioAction
+  const {getCoin, deleteCoin} = portfolioAction
+
+  console.log(coinPortfolio)
 
   useEffect(() => {
     let a: TypeData[] = []
@@ -39,12 +41,18 @@ export const Portfolio = () => {
     }
     dispatch(getCoin({coin: totalCoinInPortfolio}))
     localStorage.setItem('value', JSON.stringify(totalCoinInPortfolio))
-  }, [coinPortfolio])
+
+  }, [coinPortfolio, getCoin])
 
   return <div className={s.portfolio}>
     {portfolio?.map((item: TypeDataInPortfolio) => {
       return <div className={s.infoAboutCoin} key={item.id}>
         <p>{item.name}</p>
+        <button onClick={() => {
+          dispatch(deleteCoin())
+          localStorage.removeItem("value")
+        }}>delete
+        </button>
         <p>{item.valueOfCoin}</p>
         <p>{Number(item.totalPrice).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
       </div>
