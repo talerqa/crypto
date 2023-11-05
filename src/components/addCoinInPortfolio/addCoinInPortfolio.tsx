@@ -79,7 +79,7 @@ export const AddCoinInPortfolio = (props: Props) => {
       setError('')
       setValue('')
     }
-    // props.setActiveMenu(false)
+    props.setActiveMenu(false)
   }
 
   return (<div className={s.addCoinInPortfolio}>

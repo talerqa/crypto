@@ -4,6 +4,7 @@ import {TypeData, TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
 import s from './portfolio.module.scss'
 import {coinPortfiloAction} from "@/servicies/coinPortfolioSlice.ts";
 import {useEffect} from "react";
+import {Table} from "@/components/table";
 
 type Props = {
   setShowPortfolio: (value: boolean) => void
@@ -13,7 +14,7 @@ type Props = {
 export const Portfolio = (props: Props) => {
 
   const {setShowPortfolio} = props
-
+  const {Root, Head, Body, Row, Cell} = Table
   const coinPortfolio = useAppSelector(state => state.coinPortfolio)
   const portfolio = useAppSelector(state => state.portfolio)
 
@@ -50,26 +51,35 @@ export const Portfolio = (props: Props) => {
 
   }, [coinPortfolio, getCoin])
 
-
   return <div className={s.portfolio}>
     <button className={s.buttonClose}
             onClick={() => setShowPortfolio(false)}>x
     </button>
-    {portfolio?.map((item: TypeDataInPortfolio) => {
-      return <div className={s.infoAboutCoin} key={item.id}>
-        <p>{item.name}</p>
-        <button onClick={() => {
-
-          dispatch(deleteCoin({id: item.id}))
-          dispatch(deleteCoins())
-
-          //    localStorage.removeItem('value')
-          // localStorage.setItem('value', JSON.stringify(portfolioSlice))
-        }}>delete
-        </button>
-        <p>{item.valueOfCoin}</p>
-        <p>{Number(item.totalPrice).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</p>
-      </div>
-    })}
+    <Root className={s.portfolioBlock}>
+      <Head className={s.headerPortfolio}>
+        <Row>
+          <Cell>Name</Cell>
+          <Cell>Price when addeding, usd</Cell>
+          <Cell>Value coins</Cell>
+          <Cell className={s.cellDeleteCoin}></Cell>
+        </Row>
+      </Head>
+      <Body>
+        {portfolio?.map((item: TypeDataInPortfolio) => {
+          return <Row className={s.infoAboutCoin} key={item.id}>
+            <Cell>{item.name}</Cell>
+            <Cell>{Number(item.totalPrice).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</Cell>
+            <Cell>{item.valueOfCoin}</Cell>
+            <Cell>
+              <button onClick={() => {
+                dispatch(deleteCoin({id: item.id}))
+                dispatch(deleteCoins())
+              }}>x
+              </button>
+            </Cell>
+          </Row>
+        })}
+      </Body>
+    </Root>
   </div>
 }

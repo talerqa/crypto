@@ -17,6 +17,13 @@ export const Header = (props: PropsType) => {
   const firstThreeCoin = data?.filter((item: TypeData) => item.rank ===
   '1' || item.rank === '2' || item.rank === '3' ? item : '')
 
+  // const portfolio = useAppSelector(state => state.portfolio)
+  // const coinPortfolio = useAppSelector(state => state.coinPortfolio)
+  //
+  // const totalSum = coinPortfolio.reduce((a: any, b: TypeDataInPortfolio) => {
+  //
+  // }, 0)
+
   return <header className={s.header}>
     <div className={s.headerContanier}>
       <NavLink to={'/'} className={s.logoBlock}>
@@ -44,7 +51,8 @@ export const Header = (props: PropsType) => {
       <button onClick={() => setShowPortfolio(!showPortfolio)}>Show
         Portfolio
       </button>
-      {showPortfolio && <Portfolio showPortfolio={showPortfolio} setShowPortfolio={setShowPortfolio}/>}
+      {showPortfolio && <Portfolio showPortfolio={showPortfolio}
+                                   setShowPortfolio={setShowPortfolio}/>}
     </div>
   </header>
 }
