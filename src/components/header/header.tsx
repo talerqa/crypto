@@ -2,6 +2,7 @@ import logo from "@/assets/logo.png";
 import s from './header.module.scss'
 import {NavLink} from "react-router-dom";
 import {TypeData} from "@/servicies/baseApi.type.ts";
+import {useState} from "react";
 import {Portfolio} from "@/components/header/portfolio";
 
 type PropsType = {
@@ -9,8 +10,10 @@ type PropsType = {
 }
 
 export const Header = (props: PropsType) => {
+
   const {data} = props
 
+  const [showPortfolio, setShowPortfolio] = useState(false)
   const firstThreeCoin = data?.filter((item: TypeData) => item.rank ===
   '1' || item.rank === '2' || item.rank === '3' ? item : '')
 
@@ -38,7 +41,10 @@ export const Header = (props: PropsType) => {
           </NavLink>
         })}
       </div>
-      <Portfolio/>
+      <button onClick={() => setShowPortfolio(!showPortfolio)}>Show
+        Portfolio
+      </button>
+      {showPortfolio && <Portfolio showPortfolio={showPortfolio} setShowPortfolio={setShowPortfolio}/>}
     </div>
   </header>
 }

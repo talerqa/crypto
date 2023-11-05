@@ -1,14 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {setupListeners} from '@reduxjs/toolkit/query'
 import {baseApi} from "@/servicies/baseApi.ts";
-import {coinPortfolio} from "@/servicies/coinPortfolio.ts";
-import {portfolio} from "@/servicies/portfolio.ts";
+import {portfolioSlice} from "@/servicies/portfolioSlice.ts";
+import {coinPortfolio} from "@/servicies/coinPortfolioSlice.ts";
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     coinPortfolio: coinPortfolio,
-    portfolio: portfolio
+    portfolio: portfolioSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

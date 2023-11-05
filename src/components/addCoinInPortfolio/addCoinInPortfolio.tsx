@@ -1,11 +1,10 @@
-// @ts-ignore
-
 import s from './addCoinInPortfolio.module.scss'
-import {ChangeEvent, useState} from "react";
-import {addCoinInPortfolio} from "@/servicies/coinPortfolio.ts";
-import {useAppDispatch} from "@/hooks.ts";
-import {TypeData} from "@/servicies/baseApi.type.ts";
+import {ChangeEvent, useEffect, useState} from "react";
+import {coinPortfiloAction} from "@/servicies/coinPortfolioSlice.ts";
+import {useAppDispatch, useAppSelector} from "@/hooks.ts";
+import {TypeData, TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
 import {CloseBtn} from "@/assets/closeBtn.tsx";
+import {portfolioAction} from "@/servicies/portfolioSlice.ts";
 
 type Props = {
   data: any
@@ -13,6 +12,9 @@ type Props = {
   setActiveMenu: (menu: boolean) => void
 }
 export const AddCoinInPortfolio = (props: Props) => {
+
+  const {addCoinInPortfolio} = coinPortfiloAction
+
   const [value, setValue] = useState<number | string>('')
   const [error, setError] = useState('')
 
@@ -23,6 +25,46 @@ export const AddCoinInPortfolio = (props: Props) => {
   }
 
   const dispatch = useAppDispatch()
+
+  const coinPortfolio = useAppSelector(state => state.coinPortfolio)
+  const coins = useAppSelector(state => state.portfolio)
+
+  const {getCoin} = portfolioAction
+
+
+  useEffect(() => {
+    let a: TypeData[] = []
+    let totalCoinInPortfolio: TypeData[] = []
+
+    if (coinPortfolio.length) {
+      coinPortfolio.map((item: TypeDataInPortfolio) => {
+        const neObj = {
+          ...item,
+          valueOfCoin: Number(item.valueOfCoin),
+          totalPrice: Number(item.valueOfCoin) * Number(item.priceUsd)
+        }
+        a.push(neObj)
+      })
+
+      totalCoinInPortfolio = a.reduce((acc: TypeDataInPortfolio[], obj: any) => {
+        const foundIndex = acc.findIndex((item: TypeDataInPortfolio) => item.id === obj.id);
+        if (foundIndex === -1) {
+          acc.push(obj);
+        } else {
+          acc[foundIndex].valueOfCoin += obj.valueOfCoin
+          acc[foundIndex].totalPrice += obj.totalPrice
+        }
+        return acc;
+      }, [])
+    }
+    dispatch(getCoin({coin: totalCoinInPortfolio}))
+    localStorage.setItem('value', JSON.stringify(totalCoinInPortfolio))
+    console.log(totalCoinInPortfolio)
+    console.log(coins)
+
+  }, [coinPortfolio, getCoin])
+
+  console.log(coins)
 
   const addCoinInPortfolioHandler = (id: string, value: number) => {
     if (value === 0 || value === null) {
@@ -37,6 +79,7 @@ export const AddCoinInPortfolio = (props: Props) => {
       setError('')
       setValue('')
     }
+    // props.setActiveMenu(false)
   }
 
   return (<div className={s.addCoinInPortfolio}>

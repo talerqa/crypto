@@ -1,18 +1,25 @@
 import {useAppDispatch, useAppSelector} from "@/hooks.ts";
-import {useEffect} from "react";
-import {portfolioAction} from "@/servicies/portfolio.ts";
+import {portfolioAction} from "@/servicies/portfolioSlice.ts";
 import {TypeData, TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
 import s from './portfolio.module.scss'
+import {coinPortfiloAction} from "@/servicies/coinPortfolioSlice.ts";
+import {useEffect} from "react";
 
-export const Portfolio = () => {
+type Props = {
+  setShowPortfolio: (value: boolean) => void
+  showPortfolio: boolean
+}
+
+export const Portfolio = (props: Props) => {
+
+  const {setShowPortfolio} = props
 
   const coinPortfolio = useAppSelector(state => state.coinPortfolio)
   const portfolio = useAppSelector(state => state.portfolio)
 
   const dispatch = useAppDispatch()
-  const {getCoin, deleteCoin} = portfolioAction
-
-  console.log(coinPortfolio)
+  const {getCoin, deleteCoins} = portfolioAction
+  const {deleteCoin} = coinPortfiloAction
 
   useEffect(() => {
     let a: TypeData[] = []
@@ -27,7 +34,6 @@ export const Portfolio = () => {
         }
         a.push(neObj)
       })
-
       totalCoinInPortfolio = a.reduce((acc: TypeDataInPortfolio[], obj: any) => {
         const foundIndex = acc.findIndex((item: TypeDataInPortfolio) => item.id === obj.id);
         if (foundIndex === -1) {
@@ -44,13 +50,21 @@ export const Portfolio = () => {
 
   }, [coinPortfolio, getCoin])
 
+
   return <div className={s.portfolio}>
+    <button className={s.buttonClose}
+            onClick={() => setShowPortfolio(false)}>x
+    </button>
     {portfolio?.map((item: TypeDataInPortfolio) => {
       return <div className={s.infoAboutCoin} key={item.id}>
         <p>{item.name}</p>
         <button onClick={() => {
-          dispatch(deleteCoin())
-          localStorage.removeItem("value")
+
+          dispatch(deleteCoin({id: item.id}))
+          dispatch(deleteCoins())
+
+          //    localStorage.removeItem('value')
+          // localStorage.setItem('value', JSON.stringify(portfolioSlice))
         }}>delete
         </button>
         <p>{item.valueOfCoin}</p>
@@ -58,5 +72,4 @@ export const Portfolio = () => {
       </div>
     })}
   </div>
-
 }

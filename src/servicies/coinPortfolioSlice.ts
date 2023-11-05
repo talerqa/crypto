@@ -3,7 +3,7 @@ import {TypeDataInPortfolio} from "@/servicies/baseApi.type.ts";
 
 const initialState: Array<TypeDataInPortfolio> = JSON.parse(localStorage.getItem('value') || '{}').length ? JSON.parse(localStorage.getItem('value') || '{}') : []
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'coinPortfolio',
   initialState,
   reducers: {
@@ -16,11 +16,13 @@ export const slice = createSlice({
         ...action.payload.coin[0],
         valueOfCoin: Number(action.payload.valueOfCoin)
       })
+      localStorage.setItem('value', JSON.stringify(state))
+    },
+    deleteCoin: (state, action: PayloadAction<{ id: any }>) => {
+      return state.filter(item => item.id !== action.payload.id)
     }
-  },
-  extraReducers: () => {
   },
 })
 
-export const {addCoinInPortfolio} = slice.actions
+export const coinPortfiloAction = slice.actions
 export const coinPortfolio = slice.reducer
